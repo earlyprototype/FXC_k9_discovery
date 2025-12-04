@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Questionnaire | K9 Connectables</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #faf9f7;
+            --color-surface: #ffffff;
+            --color-text: #1a1a1a;
+            --color-text-muted: #6b6b6b;
+            --color-accent: #2d5a4a;
+            --color-accent-light: #e8f0ed;
+            --color-border: #e5e3df;
+            --color-progress-bg: #e5e3df;
+            --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Fraunces', Georgia, serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            color: var(--color-text-muted);
+            font-size: 1.0625rem;
+        }
+
+        .progress-container {
+            position: sticky;
+            top: 0;
+            background: var(--color-bg);
+            padding: 1rem 0;
+            z-index: 100;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: var(--color-progress-bg);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--color-accent);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
+        }
+
+        .section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .section-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .subsection {
+            margin-bottom: 2rem;
+        }
+
+        .subsection:last-child {
+            margin-bottom: 0;
+        }
+
+        .subsection-title {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 1rem;
+        }
+
+        .question {
+            margin-bottom: 1.25rem;
+        }
+
+        .question:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9375rem;
+            color: var(--color-text);
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.875rem 1rem;
+            font-family: var(--font-body);
+            font-size: 0.9375rem;
+            color: var(--color-text);
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            resize: vertical;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px var(--color-accent-light);
+        }
+
+        textarea::placeholder {
+            color: #a0a0a0;
+        }
+
+        .submit-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .submit-section p {
+            color: var(--color-text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background: var(--color-accent);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(45, 90, 74, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .contact {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            font-size: 0.875rem;
+        }
+
+        .contact a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem 1rem 3rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Creative Spark</div>
+            <h1>Discovery Questionnaire</h1>
+            <p class="subtitle">K9 Connectables</p>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="progressSection">Section 1 of 5</span>
+                <span id="progressPercent">0% complete</span>
+            </div>
+        </div>
+
+        <form id="discoveryForm">
+            <!-- Section 1: Business Context -->
+            <div class="section" data-section="1">
+                <div class="section-header">
+                    <div class="section-number">Section 1</div>
+                    <h2 class="section-title">Business Context</h2>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">1.1 Current State</h3>
+                    <div class="question">
+                        <label for="q1_1_1">Where is the business today compared to where you expected it to be?</label>
+                        <textarea id="q1_1_1" name="q1_1_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q1_1_2">What are the top three challenges facing K9 Connected right now?</label>
+                        <textarea id="q1_1_2" name="q1_1_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q1_1_3">What is working well that you want to protect or build upon?</label>
+                        <textarea id="q1_1_3" name="q1_1_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">1.2 Team & Resources</h3>
+                    <div class="question">
+                        <label for="q1_2_1">Who are the core team members and what are their primary responsibilities?</label>
+                        <textarea id="q1_2_1" name="q1_2_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q1_2_2">What expertise or capabilities do you have in-house versus externally sourced?</label>
+                        <textarea id="q1_2_2" name="q1_2_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q1_2_3">Are there resource constraints (time, budget, skills) we should be aware of?</label>
+                        <textarea id="q1_2_3" name="q1_2_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">1.3 Strategic Position</h3>
+                    <div class="question">
+                        <label for="q1_3_1">You mentioned being at an "inflection point" - what does this mean for K9 Connected specifically?</label>
+                        <textarea id="q1_3_1" name="q1_3_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q1_3_2">What is driving the search for new investment? What would investment unlock?</label>
+                        <textarea id="q1_3_2" name="q1_3_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q1_3_3">Where do you see K9 Connected in 2-3 years?</label>
+                        <textarea id="q1_3_3" name="q1_3_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Market & Customer Understanding -->
+            <div class="section" data-section="2">
+                <div class="section-header">
+                    <div class="section-number">Section 2</div>
+                    <h2 class="section-title">Market & Customer Understanding</h2>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">2.1 Your Customers</h3>
+                    <div class="question">
+                        <label for="q2_1_1">Who is your primary customer today? (Demographics, behaviours, motivations)</label>
+                        <textarea id="q2_1_1" name="q2_1_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_1_2">What problem are they trying to solve when they buy from you?</label>
+                        <textarea id="q2_1_2" name="q2_1_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_1_3">What feedback do you consistently hear from customers - both positive and negative?</label>
+                        <textarea id="q2_1_3" name="q2_1_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">2.2 Competitive Landscape</h3>
+                    <div class="question">
+                        <label for="q2_2_1">Who do you consider your main competitors?</label>
+                        <textarea id="q2_2_1" name="q2_2_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_2_2">What differentiates K9 Connected from alternatives in the market?</label>
+                        <textarea id="q2_2_2" name="q2_2_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_2_3">Are there emerging competitors or market shifts that concern you?</label>
+                        <textarea id="q2_2_3" name="q2_2_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">2.3 Market Position</h3>
+                    <div class="question">
+                        <label for="q2_3_1">How would you describe your current market position? (Premium, value, niche, etc.)</label>
+                        <textarea id="q2_3_1" name="q2_3_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_3_2">Is this the position you want to occupy going forward?</label>
+                        <textarea id="q2_3_2" name="q2_3_2" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">2.4 Route to Market</h3>
+                    <div class="question">
+                        <label for="q2_4_1">What channels do you currently use to sell your products? (e.g., direct online, retail, wholesale, marketplaces)</label>
+                        <textarea id="q2_4_1" name="q2_4_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_4_2">Which channels perform best and why?</label>
+                        <textarea id="q2_4_2" name="q2_4_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_4_3">Are there distribution partnerships in place or under consideration?</label>
+                        <textarea id="q2_4_3" name="q2_4_3" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_4_4">What barriers exist to reaching new customers or entering new channels?</label>
+                        <textarea id="q2_4_4" name="q2_4_4" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q2_4_5">How does your route to market compare to competitors?</label>
+                        <textarea id="q2_4_5" name="q2_4_5" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Product Portfolio -->
+            <div class="section" data-section="3">
+                <div class="section-header">
+                    <div class="section-number">Section 3</div>
+                    <h2 class="section-title">Product Portfolio</h2>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">3.1 Current Offerings</h3>
+                    <div class="question">
+                        <label for="q3_1_1">Which products are performing well and why?</label>
+                        <textarea id="q3_1_1" name="q3_1_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q3_1_2">Which products are underperforming or being phased out (e.g., the Gentle range)?</label>
+                        <textarea id="q3_1_2" name="q3_1_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q3_1_3">What have you learned from products that haven't worked as expected?</label>
+                        <textarea id="q3_1_3" name="q3_1_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">3.2 Product-Market Fit</h3>
+                    <div class="question">
+                        <label for="q3_2_1">How confident are you that your current products solve a genuine customer problem?</label>
+                        <textarea id="q3_2_1" name="q3_2_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q3_2_2">What unmet needs do you observe in your customers that your products don't address?</label>
+                        <textarea id="q3_2_2" name="q3_2_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q3_2_3">Are there adjacent markets or customer segments you've considered but not pursued?</label>
+                        <textarea id="q3_2_3" name="q3_2_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">3.3 Technical Capabilities</h3>
+                    <div class="question">
+                        <label for="q3_3_1">What manufacturing processes do you currently use?</label>
+                        <textarea id="q3_3_1" name="q3_3_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q3_3_2">What are the constraints of your current production approach?</label>
+                        <textarea id="q3_3_2" name="q3_3_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q3_3_3">What new capabilities would open up new possibilities? (e.g., rubber moulding)</label>
+                        <textarea id="q3_3_3" name="q3_3_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Challenges & Priorities -->
+            <div class="section" data-section="4">
+                <div class="section-header">
+                    <div class="section-number">Section 4</div>
+                    <h2 class="section-title">Challenges & Priorities</h2>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">4.1 Key Challenges</h3>
+                    <div class="question">
+                        <label for="q4_1_1">What are the most pressing challenges or frustrations facing K9 Connected right now?</label>
+                        <textarea id="q4_1_1" name="q4_1_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q4_1_2">Why are these challenges difficult to address?</label>
+                        <textarea id="q4_1_2" name="q4_1_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q4_1_3">What happens if these challenges persist?</label>
+                        <textarea id="q4_1_3" name="q4_1_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">4.2 History & Context</h3>
+                    <div class="question">
+                        <label for="q4_2_1">Have you attempted to address these challenges before? What happened?</label>
+                        <textarea id="q4_2_1" name="q4_2_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q4_2_2">What have you learned from those attempts?</label>
+                        <textarea id="q4_2_2" name="q4_2_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q4_2_3">Are there patterns or recurring obstacles?</label>
+                        <textarea id="q4_2_3" name="q4_2_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">4.3 Priorities & Constraints</h3>
+                    <div class="question">
+                        <label for="q4_3_1">What matters most to you when evaluating options?</label>
+                        <textarea id="q4_3_1" name="q4_3_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q4_3_2">Are there boundaries or non-negotiables we should understand?</label>
+                        <textarea id="q4_3_2" name="q4_3_2" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q4_3_3">What level of change or risk is the business comfortable with?</label>
+                        <textarea id="q4_3_3" name="q4_3_3" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Supporting Information -->
+            <div class="section" data-section="5">
+                <div class="section-header">
+                    <div class="section-number">Section 5</div>
+                    <h2 class="section-title">Supporting Information</h2>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">5.1 Documentation</h3>
+                    <div class="question">
+                        <label for="q5_1_1">Are there documents, research, or data that would help us understand your situation?</label>
+                        <textarea id="q5_1_1" name="q5_1_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q5_1_2">Are there customer insights, sales data, or feedback you can share?</label>
+                        <textarea id="q5_1_2" name="q5_1_2" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3 class="subsection-title">5.2 Key Stakeholders</h3>
+                    <div class="question">
+                        <label for="q5_2_1">Who are the key decision-makers in your organisation?</label>
+                        <textarea id="q5_2_1" name="q5_2_1" placeholder="Your response..."></textarea>
+                    </div>
+                    <div class="question">
+                        <label for="q5_2_2">Are there external stakeholders (e.g., investors, partners) whose perspectives we should understand?</label>
+                        <textarea id="q5_2_2" name="q5_2_2" placeholder="Your response..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Section -->
+            <div class="submit-section">
+                <p>Once you're finished, click below to download your responses as a file. Please email this to your Creative Spark contact.</p>
+                <button type="submit" class="btn">Download Responses</button>
+            </div>
+        </form>
+
+        <div class="contact">
+            <p>Questions? Contact <a href="mailto:thom@creativespark.ie">Thom Conaty</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        const form = document.getElementById('discoveryForm');
+        const textareas = form.querySelectorAll('textarea');
+        const progressFill = document.getElementById('progressFill');
+        const progressSection = document.getElementById('progressSection');
+        const progressPercent = document.getElementById('progressPercent');
+        const sections = form.querySelectorAll('.section');
+
+        function updateProgress() {
+            let filledCount = 0;
+            textareas.forEach(textarea => {
+                if (textarea.value.trim().length > 0) {
+                    filledCount++;
+                }
+            });
+
+            const percent = Math.round((filledCount / textareas.length) * 100);
+            progressFill.style.width = percent + '%';
+            progressPercent.textContent = percent + '% complete';
+
+            // Update current section based on scroll position
+            let currentSection = 1;
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight / 2) {
+                    currentSection = parseInt(section.dataset.section);
+                }
+            });
+            progressSection.textContent = `Section ${currentSection} of ${sections.length}`;
+        }
+
+        textareas.forEach(textarea => {
+            textarea.addEventListener('input', updateProgress);
+        });
+
+        window.addEventListener('scroll', updateProgress);
+
+        // Form submission - generate markdown
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const date = new Date().toISOString().split('T')[0];
+            let markdown = `# Discovery Questionnaire Responses\n\n`;
+            markdown += `**Client:** K9 Connectables\n`;
+            markdown += `**Completed:** ${date}\n\n`;
+            markdown += `---\n\n`;
+
+            // Section 1
+            markdown += `## Section 1: Business Context\n\n`;
+            markdown += `### 1.1 Current State\n\n`;
+            markdown += `**Where is the business today compared to where you expected it to be?**\n\n${getValue('q1_1_1')}\n\n`;
+            markdown += `**What are the top three challenges facing K9 Connected right now?**\n\n${getValue('q1_1_2')}\n\n`;
+            markdown += `**What is working well that you want to protect or build upon?**\n\n${getValue('q1_1_3')}\n\n`;
+            
+            markdown += `### 1.2 Team & Resources\n\n`;
+            markdown += `**Who are the core team members and what are their primary responsibilities?**\n\n${getValue('q1_2_1')}\n\n`;
+            markdown += `**What expertise or capabilities do you have in-house versus externally sourced?**\n\n${getValue('q1_2_2')}\n\n`;
+            markdown += `**Are there resource constraints (time, budget, skills) we should be aware of?**\n\n${getValue('q1_2_3')}\n\n`;
+            
+            markdown += `### 1.3 Strategic Position\n\n`;
+            markdown += `**You mentioned being at an "inflection point" - what does this mean for K9 Connected specifically?**\n\n${getValue('q1_3_1')}\n\n`;
+            markdown += `**What is driving the search for new investment? What would investment unlock?**\n\n${getValue('q1_3_2')}\n\n`;
+            markdown += `**Where do you see K9 Connected in 2-3 years?**\n\n${getValue('q1_3_3')}\n\n`;
+
+            // Section 2
+            markdown += `---\n\n## Section 2: Market & Customer Understanding\n\n`;
+            markdown += `### 2.1 Your Customers\n\n`;
+            markdown += `**Who is your primary customer today? (Demographics, behaviours, motivations)**\n\n${getValue('q2_1_1')}\n\n`;
+            markdown += `**What problem are they trying to solve when they buy from you?**\n\n${getValue('q2_1_2')}\n\n`;
+            markdown += `**What feedback do you consistently hear from customers - both positive and negative?**\n\n${getValue('q2_1_3')}\n\n`;
+            
+            markdown += `### 2.2 Competitive Landscape\n\n`;
+            markdown += `**Who do you consider your main competitors?**\n\n${getValue('q2_2_1')}\n\n`;
+            markdown += `**What differentiates K9 Connected from alternatives in the market?**\n\n${getValue('q2_2_2')}\n\n`;
+            markdown += `**Are there emerging competitors or market shifts that concern you?**\n\n${getValue('q2_2_3')}\n\n`;
+            
+            markdown += `### 2.3 Market Position\n\n`;
+            markdown += `**How would you describe your current market position? (Premium, value, niche, etc.)**\n\n${getValue('q2_3_1')}\n\n`;
+            markdown += `**Is this the position you want to occupy going forward?**\n\n${getValue('q2_3_2')}\n\n`;
+            
+            markdown += `### 2.4 Route to Market\n\n`;
+            markdown += `**What channels do you currently use to sell your products?**\n\n${getValue('q2_4_1')}\n\n`;
+            markdown += `**Which channels perform best and why?**\n\n${getValue('q2_4_2')}\n\n`;
+            markdown += `**Are there distribution partnerships in place or under consideration?**\n\n${getValue('q2_4_3')}\n\n`;
+            markdown += `**What barriers exist to reaching new customers or entering new channels?**\n\n${getValue('q2_4_4')}\n\n`;
+            markdown += `**How does your route to market compare to competitors?**\n\n${getValue('q2_4_5')}\n\n`;
+
+            // Section 3
+            markdown += `---\n\n## Section 3: Product Portfolio\n\n`;
+            markdown += `### 3.1 Current Offerings\n\n`;
+            markdown += `**Which products are performing well and why?**\n\n${getValue('q3_1_1')}\n\n`;
+            markdown += `**Which products are underperforming or being phased out?**\n\n${getValue('q3_1_2')}\n\n`;
+            markdown += `**What have you learned from products that haven't worked as expected?**\n\n${getValue('q3_1_3')}\n\n`;
+            
+            markdown += `### 3.2 Product-Market Fit\n\n`;
+            markdown += `**How confident are you that your current products solve a genuine customer problem?**\n\n${getValue('q3_2_1')}\n\n`;
+            markdown += `**What unmet needs do you observe in your customers that your products don't address?**\n\n${getValue('q3_2_2')}\n\n`;
+            markdown += `**Are there adjacent markets or customer segments you've considered but not pursued?**\n\n${getValue('q3_2_3')}\n\n`;
+            
+            markdown += `### 3.3 Technical Capabilities\n\n`;
+            markdown += `**What manufacturing processes do you currently use?**\n\n${getValue('q3_3_1')}\n\n`;
+            markdown += `**What are the constraints of your current production approach?**\n\n${getValue('q3_3_2')}\n\n`;
+            markdown += `**What new capabilities would open up new possibilities?**\n\n${getValue('q3_3_3')}\n\n`;
+
+            // Section 4
+            markdown += `---\n\n## Section 4: Challenges & Priorities\n\n`;
+            markdown += `### 4.1 Key Challenges\n\n`;
+            markdown += `**What are the most pressing challenges or frustrations facing K9 Connected right now?**\n\n${getValue('q4_1_1')}\n\n`;
+            markdown += `**Why are these challenges difficult to address?**\n\n${getValue('q4_1_2')}\n\n`;
+            markdown += `**What happens if these challenges persist?**\n\n${getValue('q4_1_3')}\n\n`;
+            
+            markdown += `### 4.2 History & Context\n\n`;
+            markdown += `**Have you attempted to address these challenges before? What happened?**\n\n${getValue('q4_2_1')}\n\n`;
+            markdown += `**What have you learned from those attempts?**\n\n${getValue('q4_2_2')}\n\n`;
+            markdown += `**Are there patterns or recurring obstacles?**\n\n${getValue('q4_2_3')}\n\n`;
+            
+            markdown += `### 4.3 Priorities & Constraints\n\n`;
+            markdown += `**What matters most to you when evaluating options?**\n\n${getValue('q4_3_1')}\n\n`;
+            markdown += `**Are there boundaries or non-negotiables we should understand?**\n\n${getValue('q4_3_2')}\n\n`;
+            markdown += `**What level of change or risk is the business comfortable with?**\n\n${getValue('q4_3_3')}\n\n`;
+
+            // Section 5
+            markdown += `---\n\n## Section 5: Supporting Information\n\n`;
+            markdown += `### 5.1 Documentation\n\n`;
+            markdown += `**Are there documents, research, or data that would help us understand your situation?**\n\n${getValue('q5_1_1')}\n\n`;
+            markdown += `**Are there customer insights, sales data, or feedback you can share?**\n\n${getValue('q5_1_2')}\n\n`;
+            
+            markdown += `### 5.2 Key Stakeholders\n\n`;
+            markdown += `**Who are the key decision-makers in your organisation?**\n\n${getValue('q5_2_1')}\n\n`;
+            markdown += `**Are there external stakeholders whose perspectives we should understand?**\n\n${getValue('q5_2_2')}\n\n`;
+
+            // Download
+            const blob = new Blob([markdown], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `K9-Connectables-Discovery-${date}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        function getValue(id) {
+            const el = document.getElementById(id);
+            return el.value.trim() || '*No response provided*';
+        }
+
+        // Initial progress update
+        updateProgress();
+    </script>
+</body>
+</html>
+
