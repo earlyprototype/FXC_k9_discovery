@@ -592,47 +592,102 @@
                 }
             };
 
-            // Build HTML email content
-            const htmlContent = `
-                <h2>Discovery Questionnaire Response</h2>
-                <p><strong>Client:</strong> K9 Connectables</p>
-                <p><strong>Submitted:</strong> ${date}</p>
-                <p><strong>Respondent:</strong> ${responses.respondent.name} (${responses.respondent.role})</p>
-                <hr>
-                
-                <h3>1. Business Context</h3>
-                <p><strong>Current trajectory:</strong><br>${responses.businessContext.trajectory}</p>
-                <p><strong>What's working well:</strong><br>${responses.businessContext.workingWell}</p>
-                <p><strong>Team:</strong><br>${responses.businessContext.team}</p>
-                <p><strong>Constraints:</strong><br>${responses.businessContext.constraints}</p>
-                <p><strong>2-3 year vision:</strong><br>${responses.businessContext.vision}</p>
-                
-                <h3>2. Market & Customers</h3>
-                <p><strong>Primary customer & problem:</strong><br>${responses.market.customer}</p>
-                <p><strong>Customer feedback:</strong><br>${responses.market.feedback}</p>
-                <p><strong>Competitors & differentiation:</strong><br>${responses.market.competitors}</p>
-                <p><strong>Market position:</strong><br>${responses.market.position}</p>
-                <p><strong>Sales channels:</strong><br>${responses.market.channels}</p>
-                <p><strong>Barriers to growth:</strong><br>${responses.market.barriers}</p>
-                
-                <h3>3. Product Portfolio</h3>
-                <p><strong>Performing products:</strong><br>${responses.product.performing}</p>
-                <p><strong>Underperforming & learnings:</strong><br>${responses.product.underperforming}</p>
-                <p><strong>Unmet customer needs:</strong><br>${responses.product.unmetNeeds}</p>
-                <p><strong>Manufacturing & constraints:</strong><br>${responses.product.manufacturing}</p>
-                <p><strong>New capabilities:</strong><br>${responses.product.newCapabilities}</p>
-                
-                <h3>4. Challenges & Priorities</h3>
-                <p><strong>Pressing challenges:</strong><br>${responses.challenges.pressing}</p>
-                <p><strong>Why difficult:</strong><br>${responses.challenges.whyDifficult}</p>
-                <p><strong>Evaluation priorities:</strong><br>${responses.challenges.priorities}</p>
-                <p><strong>Risk tolerance:</strong><br>${responses.challenges.riskTolerance}</p>
-                
-                <h3>5. Additional Information</h3>
-                <p><strong>Website:</strong> ${responses.additional.website}</p>
-                <p><strong>Decision-makers:</strong><br>${responses.additional.decisionMakers}</p>
-                <p><strong>Other:</strong><br>${responses.additional.other}</p>
-            `;
+            // Build plain text email content
+            const textContent = `DISCOVERY QUESTIONNAIRE RESPONSE
+================================
+
+Client: K9 Connectables
+Submitted: ${date}
+Respondent: ${responses.respondent.name} (${responses.respondent.role})
+
+----------------------------------------
+
+1. BUSINESS CONTEXT
+
+Current trajectory:
+${responses.businessContext.trajectory || 'No response'}
+
+What is working well:
+${responses.businessContext.workingWell || 'No response'}
+
+Team:
+${responses.businessContext.team || 'No response'}
+
+Constraints:
+${responses.businessContext.constraints || 'No response'}
+
+2-3 year vision:
+${responses.businessContext.vision || 'No response'}
+
+----------------------------------------
+
+2. MARKET & CUSTOMERS
+
+Primary customer & problem:
+${responses.market.customer || 'No response'}
+
+Customer feedback:
+${responses.market.feedback || 'No response'}
+
+Competitors & differentiation:
+${responses.market.competitors || 'No response'}
+
+Market position:
+${responses.market.position || 'No response'}
+
+Sales channels:
+${responses.market.channels || 'No response'}
+
+Barriers to growth:
+${responses.market.barriers || 'No response'}
+
+----------------------------------------
+
+3. PRODUCT PORTFOLIO
+
+Performing products:
+${responses.product.performing || 'No response'}
+
+Underperforming & learnings:
+${responses.product.underperforming || 'No response'}
+
+Unmet customer needs:
+${responses.product.unmetNeeds || 'No response'}
+
+Manufacturing & constraints:
+${responses.product.manufacturing || 'No response'}
+
+New capabilities:
+${responses.product.newCapabilities || 'No response'}
+
+----------------------------------------
+
+4. CHALLENGES & PRIORITIES
+
+Pressing challenges:
+${responses.challenges.pressing || 'No response'}
+
+Why difficult:
+${responses.challenges.whyDifficult || 'No response'}
+
+Evaluation priorities:
+${responses.challenges.priorities || 'No response'}
+
+Risk tolerance:
+${responses.challenges.riskTolerance || 'No response'}
+
+----------------------------------------
+
+5. ADDITIONAL INFORMATION
+
+Website: ${responses.additional.website || 'No response'}
+
+Decision-makers:
+${responses.additional.decisionMakers || 'No response'}
+
+Other:
+${responses.additional.other || 'No response'}
+`;
 
             // Get UI elements
             const submitBtn = document.getElementById('submitBtn');
@@ -647,7 +702,7 @@
             // Send email via EmailJS
             emailjs.send('service_oq7ebse', 'template_dk00evg', {
                 date: date,
-                responses: htmlContent
+                responses: textContent
             }).then(function() {
                 // Success - show message
                 statusMessage.className = 'status-message status-success';
