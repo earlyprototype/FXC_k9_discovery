@@ -7,6 +7,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("T76uridl8AkTp3VwB");
+        })();
+    </script>
     <style>
         :root {
             --color-bg: #faf9f7;
@@ -240,6 +246,31 @@
 
         .contact a:hover {
             text-decoration: underline;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9375rem;
+        }
+
+        .status-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        .status-error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
         }
 
         @media (max-width: 600px) {
@@ -554,8 +585,9 @@
 
             <!-- Submit Section -->
             <div class="submit-section">
-                <p>Once you're finished, click below to download your responses as a file. Please email this to your Creative Spark contact.</p>
-                <button type="submit" class="btn">Download Responses</button>
+                <p>Once you're finished, click below to submit your responses. A copy will be sent to Creative Spark and downloaded to your device.</p>
+                <button type="submit" class="btn" id="submitBtn">Submit Responses</button>
+                <div id="statusMessage"></div>
             </div>
         </form>
 
@@ -696,16 +728,57 @@
             markdown += `**Who are the key decision-makers in your organisation?**\n\n${getValue('q5_2_1')}\n\n`;
             markdown += `**Are there external stakeholders whose perspectives we should understand?**\n\n${getValue('q5_2_2')}\n\n`;
 
-            // Download
-            const blob = new Blob([markdown], { type: 'text/markdown' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `K9-Connectables-Discovery-${date}.md`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            // Get UI elements
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            statusMessage.innerHTML = '';
+            statusMessage.className = 'status-message';
+
+            // Send email via EmailJS
+            emailjs.send('service_oq7ebse', 'template_dk00evg', {
+                date: date,
+                responses: markdown
+            }).then(function() {
+                // Success - show message
+                statusMessage.className = 'status-message status-success';
+                statusMessage.innerHTML = 'Responses sent successfully to Creative Spark. Your download will start shortly.';
+                
+                // Download the file
+                const blob = new Blob([markdown], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `K9-Connectables-Discovery-${date}.md`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                submitBtn.textContent = 'Submitted';
+            }, function(error) {
+                // Error - show message but still allow download
+                statusMessage.className = 'status-message status-error';
+                statusMessage.innerHTML = 'There was an issue sending the email. Please download the file and email it to thom@creativespark.ie manually.';
+                
+                // Still download the file
+                const blob = new Blob([markdown], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `K9-Connectables-Discovery-${date}.md`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Try Again';
+                console.error('EmailJS error:', error);
+            });
         });
 
         function getValue(id) {
